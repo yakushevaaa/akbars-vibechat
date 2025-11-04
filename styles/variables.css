@@ -1,0 +1,22 @@
+:root {
+  --background-surface-m: rgb(255, 255, 255, 1);
+  --background-base-primary: rgb(245, 245, 245, 1);
+  --background-base-disabled: rgb(232, 232, 232, 1);
+  --background-base-disabled-hover: rgb(226, 226, 226, 1);
+  --background-accent-default: rgb(79, 117, 167, 1);
+  --background-accent-hover: rgb(70, 104, 149);
+  --background-accent-hover-light: rgb(107, 159, 227);
+  --background-accent-light: rgb(177, 202, 235);
+  --background-transparent-hover: rgba(0, 0, 0, 0.03);
+
+  --content-base-primary: rgb(33, 33, 33, 1);
+  --content-base-secondary: rgb(110, 109, 109, 1);
+  --content-base-tertiary: rgb(148, 148, 148, 1);
+  --content-base-accent-on: rgb(255, 255, 255, 1);
+  --content-accent-default: rgb(106, 157, 224);
+  --content-error: rgb(224, 106, 106);
+
+  --border-base-main: rgb(200, 198, 198, 1);
+  --border-base-main-focus: rgb(150, 150, 150);
+  --border-base-secondary: rgb(232, 232, 232, 1);
+}

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/variables.css" />
+    <link rel="stylesheet" href="styles/login.css" />
+    <link rel="stylesheet" href="styles/chat.css" />
+    <link rel="stylesheet" href="styles/modal.css" />
+    <link rel="stylesheet" href="styles/index.css" />
+    <title>VibeChat</title>
+  </head>
+  <body>
+    <!-- <div id="login" class="page active">
+      <div class="form-background">
+        <main class="form-container">
+          <div class="form-container__head">
+            <img class="logo" src="assets/icons/logo.svg" alt="Логотип" />
+            <h1 class="form-container__title">Войти в учетную запись</h1>
+          </div>
+
+          <form class="form">
+            <input
+              id="loginEmail"
+              class="form__input"
+              type="email"
+              placeholder="Введите электронную почту"
+              required
+            />
+            <p id="loginEmailError" class="form__error"></p>
+            <input
+              id="loginPassword"
+              class="form__input"
+              type="password"
+              placeholder="Введите пароль"
+              required
+            />
+            <p id="loginPasswordError" class="form__error"></p>
+            <p id="loginError" class="form__error"></p>
+            <button id="loginButton" class="form__button">Войти</button>
+          </form>
+          <a class="redirect-link" href="#register">Зарегистрироваться</a>
+        </main>
+      </div>
+    </div>
+
+    <div id="register" class="page">
+      <div class="form-background">
+        <main class="form-container">
+          <div class="form-container__head">
+            <img class="logo" src="assets/icons/logo.svg" alt="Логотип" />
+            <h1 class="form-container__title">Регистрация</h1>
+          </div>
+
+          <form class="form">
+            <input
+              id="registerEmail"
+              class="form__input"
+              type="email"
+              placeholder="Введите электронную почту"
+              required
+            />
+            <p id="registerEmailError" class="form__error"></p>
+            <input
+              id="registerNick"
+              class="form__input"
+              type="text"
+              placeholder="Введите никнейм"
+              required
+            />
+            <p id="registerNickNameError" class="form__error"></p>
+            <input
+              id="registerName"
+              class="form__input"
+              type="text"
+              placeholder="Введите ФИО"
+              required
+            />
+            <p id="registerNameError" class="form__error"></p>
+
+            <input
+              id="registerPassword"
+              class="form__input"
+              type="password"
+              placeholder="Введите пароль"
+              required
+            />
+            <p id="registerPasswordError" class="form__error"></p>
+
+            <p id="registerError" class="form__error"></p>
+            <button id="registerButton" class="form__button">
+              Зарегистрироваться
+            </button>
+          </form>
+          <a class="redirect-link" href="#login">Войти в аккаунт</a>
+        </main>
+      </div>
+    </div>
+
+    <div id="chat-page" class="page">
+      <div class="layout">
+        <header class="header">
+          <img class="logo" src="assets/icons/logo.svg" alt="Логотип" />
+          <div class="header__greet">
+            <p class="header__user-name">
+              Привет, <span id="headerUserName"></span>
+            </p>
+            <button id="leaveButton" class="header__leave-button">
+              <img src="assets/icons/leave.svg" alt="Выход" />
+            </button>
+          </div>
+        </header>
+
+        <aside class="chat-list">
+          <div class="empty-list">
+            <img src="assets/icons/empty-state.svg" alt="" />
+            <h1 class="empty-list__text">У вас еще нет<br />активных чатов</h1>
+            <div class="empty-list__buttons-container">
+              <button class="empty-list__add-button">Создать чат</button>
+              <button class="empty-list__add-button">Создать группу</button>
+            </div>
+          </div>
+          <header class="chat-list__header">
+            <h2 class="chat-list__title">Чаты</h2>
+            <button class="chat-list__add-button">
+              <img src="/assets/icons/add-chat.svg" alt="" />
+            </button>
+          </header>
+          <div class="chats">
+            <div class="chat-item chat-item--focused">
+              <p class="chat-item__category">приватный чат</p>
+              <div class="chat-item__info">
+                <h3 class="chat-item__username">CyberGnom</h3>
+
+                <span class="chat-item__new-message-count">2</span>
+              </div>
+              <div class="chat-item__message">
+                <p class="chat-item__message-text">Привет</p>
+                <p class="chat-item__time">12:43</p>
+              </div>
+            </div>
+            <div class="chat-item">
+              <p class="chat-item__category">приватный чат</p>
+              <div class="chat-item__info">
+                <h3 class="chat-item__username">CyberGnom</h3>
+
+                <span class="chat-item__new-message-count">2</span>
+              </div>
+              <div class="chat-item__message">
+                <p class="chat-item__message-text">Привет</p>
+                <p class="chat-item__time">12:43</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <main class="chat">
+          <header class="chat__header">
+            <h2 class="chat__header-title">CyberGnom</h2>
+          </header>
+          <div id="dialog" class="dialog">
+            <div class="dialog__message-parent">
+              <div class="message">
+                <p class="message__text">Hello world</p>
+                <p class="message__time">10:00</p>
+              </div>
+            </div>
+            <div class="dialog__message-parent">
+              <div class="message my-message">
+                <p class="message__text">Mine</p>
+                <p class="message__time">10:00</p>
+              </div>
+            </div>
+          </div>
+          <footer class="chat__footer">
+            <div class="chat__send-container">
+              <textarea
+                id="sendInput"
+                class="chat__send-input"
+                placeholder="Написать сообщение"
+              ></textarea>
+              <button id="sendBtn" class="chat__send-button">
+                <img class="chat__send-icon" src="assets/icons/send.svg" />
+                Отправить
+              </button>
+            </div>
+          </footer>
+        </main>
+      </div>
+    </div> -->
+
+    <!-- <div class="modal">
+      <div class="modal__header">
+        <h1 class="modal__title">Новый чат</h1>
+        <button class="modal__close-btn">
+          <img src="/assets/icons/close.svg" />
+        </button>
+      </div>
+      <p class="modal__text">Выберите участника для начала переписки</p>
+      <input type="text" class="modal__input" />
+      <ul class="modal__users-list">
+        <li class="modal__user">
+          <div class="modal__user-info-container">
+            <h3 class="modal__user-nickname">CyberGnom</h3>
+            <p class="modal__user-info">name@mail.ru</p>
+            <p class="modal__user-info">Пупкин Пуп Пупович</p>
+            <p class="modal__user-info">Зарегистрирован 19.09.2025</p>
+          </div>
+        </li>
+        <li class="modal__user">
+          <div class="modal__user-info-container">
+            <h3 class="modal__user-nickname">CyberGnom</h3>
+            <p class="modal__user-info">name@mail.ru</p>
+            <p class="modal__user-info">Пупкин Пуп Пупович</p>
+            <p class="modal__user-info">Зарегистрирован 19.09.2025</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="modal">
+      <div class="modal__header">
+        <h1 class="modal__title">Новая группа</h1>
+        <button class="modal__close-btn">
+          <img src="/assets/icons/close.svg" />
+        </button>
+      </div>
+
+      <input type="text" placeholder="Название группы" class="modal__input" />
+      <h2 class="modal__subtitle">Выберите участников группы</h2>
+      <input type="text" class="modal__input" />
+      <ul class="modal__users-list">
+        <li class="modal__user">
+          <div class="modal__user-info-container">
+            <h3 class="modal__user-nickname">CyberGnom</h3>
+            <p class="modal__user-info">name@mail.ru</p>
+            <p class="modal__user-info">Пупкин Пуп Пупович</p>
+            <p class="modal__user-info">Зарегистрирован 19.09.2025</p>
+          </div>
+          <input class="modal__user-checkbox" type="checkbox" />
+        </li>
+        <li class="modal__user">
+          <div class="modal__user-info-container">
+            <h3 class="modal__user-nickname">CyberGnom</h3>
+            <p class="modal__user-info">name@mail.ru</p>
+            <p class="modal__user-info">Пупкин Пуп Пупович</p>
+            <p class="modal__user-info">Зарегистрирован 19.09.2025</p>
+          </div>
+          <input class="modal__user-checkbox" type="checkbox" />
+        </li>
+      </ul>
+      <div class="modal__buttons-container">
+        <button class="modal__button">Отмена</button>
+        <button class="modal__button modal__button--accent">
+          Создать группу
+        </button>
+      </div>
+    </div> -->
+
+    <!-- <div class="add-popUp">
+      <ul class="add-popUp__options-list">
+        <li class="add-popUp__option">
+          <button class="add-popUp__button">Создать чат</button>
+        </li>
+        <li class="add-popUp__option">
+          <button class="add-popUp__button">Создать группу</button>
+        </li>
+      </ul>
+    </div> -->
+    <!-- 
+    <script src="scripts/router.js"></script>
+    <script src="scripts/send-message.js"></script>
+    <script src="scripts/auth/helpers.js"></script>
+    <script src="scripts/auth/api.js"></script>
+    <script src="scripts/auth/handlers.js"></script> -->
+    <div id="app"></div>
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <script type="module" src="scripts/app.js"></script>
+  </body>
+</html>

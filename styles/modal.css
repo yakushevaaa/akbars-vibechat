@@ -1,0 +1,132 @@
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  padding: 24px;
+  background-color: var(--background-surface-m);
+  border-radius: 24px;
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.modal__close-btn {
+  width: 16px;
+  height: 16px;
+  background-color: transparent;
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.modal__title {
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--content-base-primary);
+}
+
+.modal__subtitle {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal__text {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--content-base-secondary);
+}
+
+.modal__input {
+  color: var(--content-base-secondary);
+  background-color: var(--background-base-primary);
+  border: 1px solid var(--border-base-main);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.modal__users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+  justify-content: start;
+  max-height: 328px;
+  overflow-y: auto;
+}
+
+.modal__user {
+  padding: 12px 16px;
+  background-color: var(--background-base-primary);
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.modal__user-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 4px;
+}
+
+.modal__user-nickname {
+  color: var(--content-base-primary);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.modal__user-info {
+  color: var(--content-base-tertiary);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.modal__user-loading {
+  font-size: 16px;
+  color: var(--content-base-tertiary);
+}
+
+.modal__buttons-container {
+  align-self: flex-end;
+  display: flex;
+  gap: 12px;
+}
+
+.modal__button {
+  background-color: transparent;
+  color: var(--content-base-primary);
+  border: 1px solid var(--border-base-main);
+  padding: 14px 16px;
+  border-radius: 12px;
+}
+
+.modal__button:hover {
+  background-color: var(--background-transparent-hover);
+}
+
+.modal__button--accent {
+  background-color: var(--background-accent-default);
+  border: none;
+  color: var(--content-base-accent-on);
+}
+
+.modal__button--accent:hover {
+  background-color: var(--background-accent-hover);
+}
