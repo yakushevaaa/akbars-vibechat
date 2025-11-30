@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "./AuthContext"; // alias!
 import { getProfile } from "@/shared/api/auth/getProfile";
 
 export function AuthProvider({ children }) {
@@ -21,6 +21,10 @@ export function AuthProvider({ children }) {
 
     loadUser();
   }, []);
+
+  // TODO убрать
+  // не очевидно
+  // T1GIA1234: reafactor
 
   // if (loading) {
   //   return <div>Загрузка...</div>;

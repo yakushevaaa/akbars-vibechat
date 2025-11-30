@@ -1,9 +1,11 @@
 import { useContext, useEffect } from "react";
-import { MessageItem } from "./MessageItem/MessageItem";
+import { MessageItem } from "./MessageItem/MessageItem"; //! @
 import { AuthContext } from "@/app/providers/AuthProvider";
 
 export const Dialog = ({ messages }) => {
   const { user } = useContext(AuthContext);
+  
+  // const checkIsMine = ()
   function checkIsMine(senderId) {
     return senderId === user.id;
   }

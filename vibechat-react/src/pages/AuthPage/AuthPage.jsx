@@ -1,4 +1,5 @@
 import { Outlet } from "react-router";
+
 export const AuthPage = () => {
   return (
     <div className="page auth-page">

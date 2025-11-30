@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { createPortal } from "react-dom";
 import { ModalContext } from "@/app/providers/ModalProvider";
+
 export const Modal = () => {
   const { isOpen, content, closeModal } = useContext(ModalContext);
 

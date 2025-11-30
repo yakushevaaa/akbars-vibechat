@@ -1,7 +1,7 @@
-export async function request(endpoint, options = {}) {
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const FULL_API_URL = `${BASE_URL}/${endpoint}`;
 
-  const FULL_API_URL = `${BASE_URL}/${endpoint}`;
+export async function request(endpoint, options = {}) {
   const token = localStorage.getItem("token");
 
   const headers = options.headers ? { ...options.headers } : {};

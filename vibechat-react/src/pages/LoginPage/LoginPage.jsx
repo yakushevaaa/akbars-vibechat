@@ -7,23 +7,33 @@ import { FormError } from "@/shared/components/ui/FormError";
 import { CustomInput } from "@/shared/components/ui/CustomInput";
 import { FormSuccess } from "@/shared/components/ui/FormSuccess";
 
+// ./constants.ts
+export const errors = {
+    email: "",
+    password: "",
+  }
+
+// formik + zod
+// react-hook-form + Y??? 
+// TODO HW
+// HW TS
+
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [generalError, setGeneralError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [serverErrors, setServerErrors] = useState(errors);
 
-  const [serverErrors, setServerErrors] = useState({
-    email: "",
-    password: "",
-  });
+  const {email: emailError, password: passwordError } = serverErrors
 
-  const { user, setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
     if (!email.trim() || !password.trim()) {
       setGeneralError("Все значения должны быть заполнены");
       return;
@@ -32,19 +42,24 @@ export const LoginPage = () => {
     setGeneralError("");
     setServerErrors({});
 
-    const response = await login({ email: email, password: password });
+    const {message, user, error} = await login({ email, password });
 
-    if (response.error) {
-      setGeneralError(response.message);
+    // helper
+    if (error) {
+      setGeneralError(message);
+      
       const inputErrors = handleAuthErrors(response);
-      if (Object.keys(inputErrors).length > 0) {
+
+      const isErrors =  Object.keys(inputErrors).length > 0
+      
+      if(isErrors) {
         setServerErrors(inputErrors);
         return;
       }
     }
 
     setSuccess(true);
-    setUser(response.user);
+    setUser(user);
 
     navigate("/chat");
   };
@@ -55,17 +70,17 @@ export const LoginPage = () => {
       <form onSubmit={handleSubmit} className="form">
         <CustomInput
           id="loginEmail"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(event) => setEmail(event.target.value)}
           className="form__input"
           type="email"
           placeholder="Введите электронную почту"
         />
 
-        {serverErrors.email && <FormError>{serverErrors.email}</FormError>}
+        {emailError && <FormError>{emailError}</FormError>}
 
         <CustomInput
           id="loginPassword"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(event) => setPassword(event.target.value)}
           className="form__input"
           type="password"
           placeholder="Введите пароль"
