@@ -1,4 +1,5 @@
 import { formatDate } from "@/shared/lib";
+
 export const ModalUserGroupItem = ({ user }) => {
   return (
     <>

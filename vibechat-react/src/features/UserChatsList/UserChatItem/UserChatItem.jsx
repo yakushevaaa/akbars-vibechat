@@ -3,6 +3,7 @@ import { AuthContext } from "@/app/providers/AuthProvider";
 import { formatTime } from "@/shared/lib";
 import { ChatsContext } from "@/app/providers/ChatsProvider/ChatsContext";
 import { getChatName } from "@/shared/lib/getChatName";
+
 export const UserChatItem = ({ chat }) => {
   const { user } = useContext(AuthContext);
 
@@ -19,6 +20,7 @@ export const UserChatItem = ({ chat }) => {
       <div className="chat-item__info">
         <h3 className="chat-item__username">{getChatName(chat)}</h3>
 
+{/* remove  */}
         {/* <span className="chat-item__new-message-count">2</span> */}
       </div>
       <div className="chat-item__message">

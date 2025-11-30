@@ -1,5 +1,6 @@
 import { formatTime } from "@/shared/lib";
 import cn from "classnames";
+
 export const MessageItem = ({ message, isMine }) => {
   return (
     <div className={cn("message", { "my-message": isMine })}>

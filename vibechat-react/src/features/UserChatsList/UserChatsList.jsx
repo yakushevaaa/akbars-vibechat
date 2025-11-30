@@ -2,10 +2,12 @@ import { UserChatItem } from "./UserChatItem";
 import { useContext } from "react";
 import { ChatsContext } from "@/app/providers/ChatsProvider/ChatsContext";
 import cn from "classnames";
+
 export const UserChatsList = ({ chatsList }) => {
   //  TODO: сделать отображение непрочитанных сообщений
   const { activeChat, setActiveChat, markAsRead } = useContext(ChatsContext);
 
+  // () => 
   function handleClick(chat) {
     setActiveChat(chat);
     markAsRead(chat.id);

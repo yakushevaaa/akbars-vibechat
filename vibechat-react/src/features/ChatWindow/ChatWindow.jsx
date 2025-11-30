@@ -1,9 +1,12 @@
 import { ChatsContext } from "@/app/providers/ChatsProvider/ChatsContext";
 import { getChatMessages } from "@/shared/api/chat/getChatMessages";
 import { useContext, useState, useEffect } from "react";
-import { Dialog } from "../Dialog";
+import { Dialog } from "../Dialog"; // alias!
 import { getChatName } from "@/shared/lib/getChatName";
 import { useKeyPress } from "@/shared/lib/hooks/useKeyPress";
+
+// react-query
+// 
 
 export const ChatWindow = () => {
   const [messages, setMessages] = useState([]);
@@ -11,6 +14,7 @@ export const ChatWindow = () => {
 
   useEffect(() => {
     if (!activeChat) return;
+    
     const fetchMessages = async () => {
       const { messages } = await getChatMessages(activeChat.id);
       setMessages(messages);
@@ -22,6 +26,7 @@ export const ChatWindow = () => {
   useKeyPress("Escape", () => {
     setActiveChat(null);
   });
+
   return (
     <main className="chat">
       <header className="chat__header">
