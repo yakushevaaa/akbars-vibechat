@@ -15,6 +15,7 @@ import {
 import { initSocket } from "./socket.js";
 import { getChatMessages, sendMessage } from "./message.js";
 import { renderChatMessages } from "./state.js";
+import { IMAGE_API_KEY } from "./constants.js";
 
 export async function handleLogin() {
   const loginData = {
@@ -47,7 +48,16 @@ export async function handleRegister() {
   if (registerResult) {
     const user = await login(registerData);
     if (user) {
-      updateState({ user, page: "chat" });
+      const { chats } = await fetchChats();
+      await initSocket();
+
+      if (state.socket && chats) {
+        chats.forEach((chat) => {
+          state.socket.emit("subscribe_to_chat", { chatId: chat.id });
+        });
+      }
+
+      updateState({ user, page: "chat", chats });
     }
   }
 }
@@ -75,7 +85,7 @@ export async function handleLogout() {
   });
 }
 
-export function handleCreateChat() {
+export function handleCreateChatModal() {
   return async (e) => {
     e.preventDefault();
 
@@ -124,6 +134,27 @@ export function handleCreateGroupModal() {
     }
   };
 }
+
+export async function handleSearchUser(search = "") {
+  const response = await fetchUsers(search);
+  const users = response.users || [];
+
+  const modal = root.querySelector(".modal-container");
+  if (modal) {
+    const usersList = modal.querySelector(".modal__users-list");
+
+    if (usersList) {
+      const loadingItem = usersList.querySelector(".modal__user-loading");
+      if (loadingItem) usersList.removeChild(loadingItem);
+
+      const userElements = users.map((user) =>
+        createUserItem(user, false, (user) => handleCreatePrivateChat(user.id))
+      );
+      usersList.replaceChildren(...userElements);
+    }
+  }
+}
+
 export async function handleCreatePrivateChat(userId) {
   const response = await createPrivateChat(userId);
 
@@ -131,6 +162,11 @@ export async function handleCreatePrivateChat(userId) {
 
   if (response.alreadyExists) {
     alert("Этот чат уже существует");
+  }
+
+  const newChatId = response.chat?.id;
+  if (state.socket && newChatId) {
+    state.socket.emit("subscribe_to_chat", { chatId: newChatId });
   }
 
   const { chats } = await fetchChats();
@@ -150,6 +186,11 @@ export async function handleCreateGroup(name, friedsId) {
   const response = await createGroup(name, friedsId);
 
   if (!response) return;
+
+  const newChatId = response.chat?.id;
+  if (state.socket && newChatId) {
+    state.socket.emit("subscribe_to_chat", { chatId: newChatId });
+  }
 
   const { chats } = await fetchChats();
   updateChats(chats);
@@ -180,4 +221,35 @@ export async function handleSendMessage() {
   if (response && !response.error) {
     input.value = "";
   }
+}
+
+export async function handleUploadImage(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    const res = await fetch(
+      `https://api.imgbb.com/1/upload?key=${IMAGE_API_KEY}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const data = await res.json();
+
+    if (data.success) {
+      const imageUrl = data.data.url;
+      await sendMessage(state.activeChat.id, `img:${imageUrl}`);
+    } else {
+      alert("Ошибка при загрузке изображения");
+    }
+  } catch (err) {
+    console.error("Ошибка загрузки:", err);
+    alert("Ошибка сети при загрузке изображения");
+  }
+
+  event.target.value = "";
 }

@@ -6,6 +6,7 @@ import {
   createEmptyChats,
   createChatList,
   createMessageElement,
+  createEmptyMessages,
 } from "./components/chat-components.js";
 
 export const state = {
@@ -125,12 +126,13 @@ export function renderChatMessages(messages = []) {
   const dialog = root.querySelector("#dialog");
   if (!dialog) return;
 
-  dialog.replaceChildren();
+  if (!messages || messages.length === 0) {
+    const emptyMessages = createEmptyMessages();
+    dialog.replaceChildren(emptyMessages);
+    return;
+  }
 
-  messages.forEach((msg) => {
-    const messageElement = createMessageElement(msg);
-    dialog.appendChild(messageElement);
-  });
+  dialog.replaceChildren(...messages.map((msg) => createMessageElement(msg)));
 
   dialog.scrollTop = dialog.scrollHeight;
 }

@@ -1,10 +1,11 @@
 import { state, root } from "../state.js";
 import {
-  handleCreateChat,
+  handleCreateChatModal,
   handleCreateGroupModal,
   handleLogout,
   handleSendMessage,
   handleSelectChat,
+  handleUploadImage,
 } from "../handlers.js";
 import { createElement } from "../utils.js";
 import { handleUserTyping } from "../handlers-socket.js";
@@ -83,7 +84,7 @@ const createAddPopup = () => {
               createElement("button", {
                 className: "add-popUp__button",
                 text: "Создать чат",
-                onClick: handleCreateChat(),
+                onClick: handleCreateChatModal(),
               }),
             ],
           }),
@@ -120,7 +121,7 @@ export const createEmptyChats = () =>
           createElement("button", {
             className: "empty-list__add-button",
             text: "Создать чат",
-            onClick: handleCreateChat(),
+            onClick: handleCreateChatModal(),
           }),
           createElement("button", {
             className: "empty-list__add-button",
@@ -178,7 +179,9 @@ function createChatHeader() {
             }),
             createElement("span", {
               className: "chat__header-members",
-              text: `${state.activeChat.members.length} участников`,
+              text: state.activeChat.members
+                .map((member) => member.nickname)
+                .join(", "),
             }),
           ],
         }),
@@ -191,6 +194,13 @@ function createChatHeader() {
 
 function createChatFooter() {
   if (!state.activeChat) return null;
+
+  const fileInput = createElement("input", {
+    id: "fileUploadInput",
+    className: "chat__footer-file-input",
+    attrs: { type: "file", accept: "image/*" },
+    onChange: handleUploadImage,
+  });
 
   return createElement("footer", {
     className: "chat__footer",
@@ -211,6 +221,20 @@ function createChatFooter() {
             className: "chat__send-input",
             attrs: { placeholder: "Написать сообщение" },
           }),
+          fileInput,
+          createElement("button", {
+            className: "chat__upload-button",
+            onClick: () => fileInput.click(),
+            children: [
+              createElement("img", {
+                className: "chat__upload-icon",
+                attrs: {
+                  src: "assets/icons/add-file.svg",
+                  alt: "Прикрепить файл",
+                },
+              }),
+            ],
+          }),
           createElement("button", {
             id: "sendBtn",
             onClick: () => handleSendMessage(),
@@ -228,6 +252,22 @@ function createChatFooter() {
     ],
   });
 }
+
+export const createEmptyMessages = () => {
+  return createElement("div", {
+    className: "empty-messages",
+    children: [
+      createElement("img", {
+        className: "empty-messages__img",
+        attrs: { src: "assets/icons/fish-transparent.svg", alt: "Иконка рыбы" },
+      }),
+      createElement("h2", {
+        className: "empty-messages__title",
+        text: "Ваш чат пуст. Начните делиться уловом уже сейчас!",
+      }),
+    ],
+  });
+};
 
 const createChatMain = () => {
   const header = createChatHeader();
@@ -248,6 +288,15 @@ export const createChatItem = (chat) => {
   const friendName = getChatName(chat);
 
   const isActive = state.activeChat && state.activeChat.id === chat.id;
+
+  let lastMessageText = lastMessage.content || "";
+  let displayText = "Чат пуст";
+
+  if (lastMessageText.startsWith("img:")) {
+    displayText = "Изображение";
+  } else if (lastMessageText) {
+    displayText = lastMessageText;
+  }
 
   return createElement("div", {
     className: `chat-item ${isActive ? "chat-item--focused" : ""}`,
@@ -279,7 +328,7 @@ export const createChatItem = (chat) => {
         children: [
           createElement("p", {
             className: "chat-item__message-text",
-            text: lastMessage.content || "Чат пуст",
+            text: displayText,
           }),
           createElement("p", {
             className: "chat-item__time",
@@ -338,6 +387,20 @@ export const createChatList = () => {
 
 export function createMessageElement(msg) {
   const isMine = msg.user_id === state.user.id;
+  let messageContent;
+
+  if (msg.content.startsWith("img:")) {
+    const imgUrl = msg.content.replace("img:", "");
+    messageContent = createElement("img", {
+      className: "message__image",
+      attrs: { src: imgUrl, alt: "Изображение" },
+    });
+  } else {
+    messageContent = createElement("p", {
+      className: "message__text",
+      text: msg.content,
+    });
+  }
 
   return createElement("div", {
     className: "dialog__message-parent",
@@ -345,10 +408,7 @@ export function createMessageElement(msg) {
       createElement("div", {
         className: `message ${isMine ? "my-message" : ""}`,
         children: [
-          createElement("p", {
-            className: "message__text",
-            text: msg.content,
-          }),
+          messageContent,
           createElement("p", {
             className: "message__time",
             text: new Date(msg.created_at).toLocaleTimeString([], {

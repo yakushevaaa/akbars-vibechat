@@ -1,0 +1,1 @@
+export { ModalAddChat } from "./ModalAddChat";

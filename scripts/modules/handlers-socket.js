@@ -1,3 +1,4 @@
+import { debounce } from "./api.js";
 import { sendTypingStart, sendTypingStop } from "./socket.js";
 import { state, root } from "./state.js";
 import { updateState, renderChatMessages, renderChats } from "./state.js";
@@ -58,7 +59,7 @@ export function handleServerNewMessage(message) {
   renderChats();
 }
 
-export function handleUserTyping() {
+export const handleUserTyping = debounce(() => {
   if (!state.activeChat) return;
   sendTypingStart(state.activeChat.id);
 
@@ -66,7 +67,7 @@ export function handleUserTyping() {
   typingTimeout = setTimeout(() => {
     sendTypingStop(state.activeChat.id);
   }, 1500);
-}
+}, 500);
 
 function isUserInActiveChat(userId) {
   if (!state.activeChat) return false;

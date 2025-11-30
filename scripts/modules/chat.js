@@ -1,10 +1,10 @@
 import { request } from "./api.js";
 
-export async function fetchUsers() {
+export async function fetchUsers(search = "") {
   return await request("api/chat/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ search: "" }),
+    body: JSON.stringify({ search: search }),
   });
 }
 

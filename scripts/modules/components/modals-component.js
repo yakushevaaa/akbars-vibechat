@@ -4,8 +4,10 @@ import {
   handleCreateGroup,
   handleCreatePrivateChat,
   handleAddUserToGroup,
+  handleSearchUser,
 } from "../handlers.js";
 import { root } from "../state.js";
+import { debounce } from "../api.js";
 
 export const modalContainer = (content, onClose) =>
   createElement("div", {
@@ -46,6 +48,12 @@ export const createChatModal = (onClose, users = [], loading = false) =>
 
       createElement("input", {
         className: "modal__input",
+        onInput: debounce((event) => {
+          const search = event.target.value.trim();
+          if (search) {
+            handleSearchUser(search);
+          }
+        }, 500),
         attrs: {
           type: "text",
           placeholder: "Поиск пользователей",
@@ -114,6 +122,12 @@ export const createGroupModal = (
 
       createElement("input", {
         className: "modal__input",
+        onInput: debounce((event) => {
+          const search = event.target.value.trim();
+          if (search) {
+            handleSearchUser(search);
+          }
+        }, 500),
         attrs: {
           type: "text",
           placeholder: "Поиск пользователей",
